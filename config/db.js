@@ -7,7 +7,7 @@ const db = config.get('mongoURI');
 //Connect to MongoDB
 const connectDatabase = async () => {
     try{
-        await mongoose.connect(db, {
+        mongoose.connect(db, {
             useUnifiedTopology: true
         });
         console.log('Connected to MongoDB');
