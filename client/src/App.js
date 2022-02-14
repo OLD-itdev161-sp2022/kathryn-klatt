@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import axios from 'axios';
-import { response } from 'express';
 
 class App extends React.Component {
 
