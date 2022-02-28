@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://admin:itdev161@cluster0.1wguu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://admin:itdev161@cluster0.1wguu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "jwtSecret": "SaveUkraine"
 }
