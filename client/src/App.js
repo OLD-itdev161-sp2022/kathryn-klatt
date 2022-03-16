@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import axios from 'axios';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 class App extends React.Component {
 
@@ -43,10 +43,10 @@ class App extends React.Component {
             <Route exact path="/">
               {this.state.data}
             </Route>
-            <Switch>
+            <Routes>
               <Route path="/register">Register</Route>
               <Route path="/login">Login</Route>
-            </Switch>
+            </Routes>
           </main>
         </div>
       </Router>
