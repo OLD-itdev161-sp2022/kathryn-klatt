@@ -3,7 +3,7 @@ import config from 'config';
 
 const auth = (req,res,next) => {
     const token = req.header('x-auth-token');
-    const secret = config.get('jwtsecret');
+    const secret = config.get('jwtSecret');
 
     if(!token){
         return res
