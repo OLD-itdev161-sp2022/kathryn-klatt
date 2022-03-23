@@ -50,26 +50,36 @@ const Login = ({authenticateUser}) => {
         }
         authenticateUser();
     }
-    return(
-        <div>
+    return (
+      <div>
         <h2>Login</h2>
         <div>
-        <input 
-        type="text"
-        placeholder="Password"
-        name="password"
-        value={password}
-        onChange={e=>onChange(e)} />
+          <input
+            type="text"
+            placeholder="Email"
+            name="email"
+            value={email}
+            onChange={(e) => onChange(e)}
+          />
         </div>
         <div>
-        <button onClick={()=>loginUser()}>Login</button>
+          <input
+            type="text"
+            placeholder="Password"
+            name="password"
+            value={password}
+            onChange={(e) => onChange(e)}
+          />
         </div>
         <div>
-        {errors && errors.map(error=>
-            <div key={error.msg}>{error.msg}</div>)}
+          <button onClick={() => loginUser()}>Login</button>
         </div>
+        <div>
+          {errors &&
+            errors.map((error) => <div key={error.msg}>{error.msg}</div>)}
         </div>
-    )
+      </div>
+    );
 }
 
 export default Login;
