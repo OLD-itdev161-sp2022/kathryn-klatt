@@ -4,70 +4,91 @@ import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Register from './components/Register/Register';
 import Login from './components/Login/Login';
+import { response } from 'express';
 
 
 class App extends React.Component {
-
   state = {
-    data:null,
-    token:null,
-    user:null
-  }
+    posts: [],
+    token: null,
+    user: null,
+  };
 
-  componentDidMount(){
-    axios.get('http://localhost:5000')
-    .then ((response) => {
-      this.setState({
-        data: response.data
-      })
-    })
-    .catch((error) => {
-      console.error(`Error fetching data: ${error}`);
-    })
-
+  componentDidMount() {
     this.authenticateUser();
   }
 
-  authenticateUser=()=>{
-    const token = localStorage.getItem('token');
+  authenticateUser = () => {
+    const token = localStorage.getItem("token");
 
-    if(!token){
-      localStorage.removeItem('user')
-      this.setState({user:null});
+    if (!token) {
+      localStorage.removeItem("user");
+      this.setState({ user: null });
     }
 
-    if(token){
+    if (token) {
       const config = {
-        headers:{
-          'x-auth-token':token
-        }
-      }
-      axios.get('http://localhost:5000/api/auth',config)
-      .then((response) => {
-        localStorage.setItem('user', response.data.name)
-        this.setState({user:response.data.name})
-      })
-      .catch((error)=>{
-        localStorage.removeItem('user');
-        this.setState({user:null});
-        console.error(`Error logging in: ${error}`);
-      }) 
+        headers: {
+          "x-auth-token": token,
+        },
+      };
+      axios
+        .get("http://localhost:5000/api/auth", config)
+        .then((response) => {
+          localStorage.setItem("user", response.data.name);
+          this.setState(
+            {
+              user: response.data.name,
+              token: token,
+            },
+            () => {
+              this.loadData();
+            }
+          );
+        })
+        .catch((error) => {
+          localStorage.removeItem("user");
+          this.setState({ user: null });
+          console.error(`Error logging in: ${error}`);
+        });
     }
-  }
+  };
+
+  loadData = () => {
+    const { token } = this.state;
+    if (token) {
+      const config = {
+        headers: {
+          "x-auth-token": token,
+        },
+      };
+      axios
+        .get("http://localhost:5000/api/posts", config)
+        .then((response) => {
+          this.setState({
+            posts: response.data,
+          });
+        })
+        .catch((error) => {
+          console.error(`Error fetching data: ${error}`);
+        });
+    }
+  };
 
   logOut = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     this.setState({
-      user: null, token: null
+      user: null,
+      token: null,
     });
-  }
+  };
 
   render() {
-    let {user,data} = this.state;
+    let { user, posts } = this.state;
     const authProps = {
-      authenticateUser: this.authenticateUser
-    }
+      authenticateUser: this.authenticateUser,
+    };
     return (
       <Router>
         <div className="App">
@@ -96,7 +117,13 @@ class App extends React.Component {
               {user ? (
                 <React.Fragment>
                   <div>Hello {user}!</div>
-                  <div>{data}</div>
+                  <div>{posts.map(post=>(
+                    <div key={post._id}>
+                    <h1>{post.title}</h1>
+                    <p>{post.body}</p>
+                    </div>
+                    ))}
+                    </div>
                 </React.Fragment>
               ) : (
                 <React.Fragment>Please Register or Login</React.Fragment>
