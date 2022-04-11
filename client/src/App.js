@@ -1,14 +1,13 @@
-import React from 'react';
-import './App.css';
-import axios from 'axios';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Register from './components/Register/Register';
-import Login from './components/Login/Login';
-import PostList from './components/PostList/PostList';
-import Post from './components/Post/Post';
-import CreatePost from './components/Post/CreatePost';
-import EditPost from './components/Post/EditPost';
-
+import React from "react";
+import axios from "axios";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import "./App.css";
+import Register from "./components/Register/Register";
+import Login from "./components/Login/Login";
+import PostList from "./components/PostList/PostList";
+import Post from "./components/Post/Post";
+import CreatePost from "./components/Post/CreatePost";
+import EditPost from "./components/Post/EditPost";
 
 class App extends React.Component {
   state = {
@@ -60,6 +59,7 @@ class App extends React.Component {
 
   loadData = () => {
     const { token } = this.state;
+
     if (token) {
       const config = {
         headers: {
@@ -82,10 +82,7 @@ class App extends React.Component {
   logOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    this.setState({
-      user: null,
-      token: null,
-    });
+    this.setState({ user: null, token: null });
   };
 
   viewPost = (post) => {
@@ -119,26 +116,29 @@ class App extends React.Component {
     }
   };
 
-  editPost = post =>{
+  editPost = (post) => {
     this.setState({
-      post:post
+      post: post,
     });
   };
 
-  onPostCreated = post => {
-    const newPosts = [...this.state.posts,post];
+  onPostCreated = (post) => {
+    const newPosts = [...this.state.posts, post];
+
     this.setState({
-      posts:newPosts
+      posts: newPosts,
     });
   };
 
-  onPostUpdated = post => {
-    console.log('updated post: ', post);
-    const newPosts= [...this.state.posts];
-    const index = newPosts.findIndex(p=>p._id === post._id);
+  onPostUpdated = (post) => {
+    console.log("updated post: ", post);
+    const newPosts = [...this.state.posts];
+    const index = newPosts.findIndex((p) => p._id === post._id);
+
     newPosts[index] = post;
+
     this.setState({
-      posts:newPosts
+      posts: newPosts,
     });
   };
 

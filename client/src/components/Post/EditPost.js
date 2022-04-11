@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { useHistory } from "react-router-dom";
-import './styles.css';
+import "./styles.css";
 
-const EditPost = ({ token, post, onPostCreated }) => {
+const EditPost = ({ token, post, onPostUpdated }) => {
   let history = useHistory();
   const [postData, setPostData] = useState({
     title: post.title,
@@ -37,17 +37,17 @@ const EditPost = ({ token, post, onPostCreated }) => {
           },
         };
 
-        //Create the post
+        // Create the post
         const body = JSON.stringify(newPost);
-        const res = await axios.post(
-          "http://localhost:5000/api/posts",
+        const res = await axios.put(
+          `http://localhost:5000/api/posts/${post._id}`,
           body,
           config
         );
 
-        //Call the handler and redirect
-        onPostCreated(res.data);
-        history.push('/');
+        // Call the handler and redirect
+        onPostUpdated(res.data);
+        history.push("/");
       } catch (error) {
         console.error(`Error creating post: ${error.response.data}`);
       }
