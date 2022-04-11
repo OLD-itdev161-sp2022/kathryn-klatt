@@ -105,6 +105,7 @@ class App extends React.Component {
       axios
         .delete(`http://localhost:5000/api/posts/${post._id}`, config)
         .then((response) => {
+          //Not sure why this response is 'never read'
           const newPosts = this.state.posts.filter((p) => p._id !== post._id);
           this.setState({
             posts: [...newPosts],
